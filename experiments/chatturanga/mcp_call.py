@@ -34,7 +34,10 @@ async def main():
             for index, call in enumerate(json.loads(request.read_text(encoding="utf-8"))):
                 args = dict(call.get("arguments", {}))
                 if "code_file" in call:
-                    args["code"] = (request.parent / call["code_file"]).read_text(encoding="utf-8")
+                    args["code"] = (
+                        f"EXPERIMENT_DIR = {str(request.parent)!r}\n"
+                        + (request.parent / call["code_file"]).read_text(encoding="utf-8")
+                    )
                 response = await session.call_tool(call["tool"], args)
                 record = {"tool": call["tool"], "arguments": args, "isError": response.isError, "content": []}
                 for block_index, block in enumerate(response.content):

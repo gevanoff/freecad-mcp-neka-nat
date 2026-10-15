@@ -1,0 +1,3 @@
+[
+  {"tool": "execute_code", "arguments": {"include_screenshot": false, "code": "from pathlib import Path\nfrom PySide import QtCore\nassert list(App.listDocuments()) == ['ChatturangaPilot'], 'Unexpected documents: do not close them'\ndoc = App.getDocument('ChatturangaPilot')\nfolder = Path('C:/Users/paper/Code/freecad-mcp/experiments/chatturanga/results/baseline')\ndoc.saveAs(str(folder / 'failed-pilot.FCStd'))\nApp.closeDocument(doc.Name)\nQtCore.QTimer.singleShot(2000, Gui.getMainWindow().close)\nprint('Baseline saved; closing isolated test session')"}}
+]

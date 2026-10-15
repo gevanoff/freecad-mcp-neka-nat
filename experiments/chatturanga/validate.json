@@ -1,0 +1,7 @@
+[
+  {"tool": "edit_object", "arguments": {"doc_name": "ChatturangaPilot", "obj_name": "FootSoldier", "obj_properties": {"Shapes": ["Body", "Missing"]}, "include_screenshot": false}},
+  {"tool": "execute_code", "code_file": "validate_and_export.py", "arguments": {"include_screenshot": false}},
+  {"tool": "get_view", "arguments": {"view_name": "Isometric", "width": 900, "height": 900}},
+  {"tool": "get_view", "arguments": {"view_name": "Front", "width": 900, "height": 900}},
+  {"tool": "get_view", "arguments": {"view_name": "Top", "width": 900, "height": 900}}
+]
