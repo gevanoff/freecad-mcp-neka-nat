@@ -1,0 +1,8 @@
+import FreeCAD
+import FreeCADGui
+from rpc_server import rpc_server
+
+FreeCADGui.activateWorkbench("FreeCADMCPAddonWorkbench")
+print(rpc_server.start_rpc_server())
+print("FreeCAD version:", FreeCAD.Version())
+print("Addon directory:", FreeCAD.getUserAppDataDir())
