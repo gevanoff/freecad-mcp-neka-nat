@@ -64,6 +64,25 @@ def resolve_references(doc: FreeCAD.Document, val: Any) -> list[tuple[Any, Any]]
     return refs
 
 
+def resolve_link_list(doc: FreeCAD.Document, val: Any) -> list[Any]:
+    """Resolve JSON object names before assigning an App::PropertyLinkList.
+
+    Resolve the entire list first so a missing reference cannot replace an
+    existing property's links with a partially resolved list.
+    """
+    if not isinstance(val, (list, tuple)) or any(
+        not isinstance(name, str) for name in val
+    ):
+        raise ValueError("Link list must be a sequence of object names.")
+    resolved = []
+    for name in val:
+        linked = doc.getObject(name)
+        if linked is None:
+            raise ValueError(f"Referenced object '{name}' not found.")
+        resolved.append(linked)
+    return resolved
+
+
 def set_object_property(
     doc: FreeCAD.Document, obj: FreeCAD.DocumentObject, properties: dict[str, Any]
 ):
@@ -115,6 +134,12 @@ def set_object_property(
 
                 elif prop == "References" and isinstance(val, list):
                     setattr(obj, prop, resolve_references(doc, val))
+
+                elif (
+                    getattr(obj, "getTypeIdOfProperty", lambda _prop: None)(prop)
+                    == "App::PropertyLinkList"
+                ):
+                    setattr(obj, prop, resolve_link_list(doc, val))
 
                 else:
                     setattr(obj, prop, val)

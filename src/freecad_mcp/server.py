@@ -267,6 +267,13 @@ def create_object(
         }
         ```
 
+        For App::PropertyLinkList properties, supply an array of existing
+        object names in the same document. For example, create Part::MultiFuse
+        with {"Shapes": ["Base", "Body", "Head"], "Refine": true}.
+        The complete list is resolved before assignment; a missing name is an
+        error and does not replace the property's existing links. Use returned
+        internal object names, not Labels. An empty list clears the links.
+
         If you want to create a FEM analysis, you can use the following data.
         ```json
         {

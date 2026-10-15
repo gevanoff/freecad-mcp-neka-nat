@@ -27,6 +27,21 @@
 See [code execution](execution.md) for execution modes, shared script state,
 background job tracking, and timeout handling.
 
+## Object references
+
+For `App::PropertyLinkList` properties, pass a JSON array of object **names**
+from the same document. For example, create a `Part::MultiFuse` with
+`{"Shapes": ["Base", "Body", "Collar", "Head"], "Refine": true}` after creating
+those four objects. This also works for link-list properties such as `Group`.
+Use the actual names returned by `create_object`, not display labels.
+
+The entire array is resolved before that property is assigned. A missing name
+or a non-string entry returns an error and preserves the property's existing
+links. An empty array clears the list (which can make a Boolean invalid until
+valid links are assigned again). This does not make an entire multi-property
+edit transactional. Ordinary string-list properties remain strings; subelement
+references continue to use the existing `References` format.
+
 ## Screenshot options
 
 The following tools return optional screenshots: `create_object`, `edit_object`,
